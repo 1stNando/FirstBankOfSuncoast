@@ -100,6 +100,14 @@ namespace FirstBankOfSuncoast
             public string Number { get; }
             public string Owner { get; set; }
             public decimal Balance { get; }
+
+            //Initialize the object
+            public BankAccount(string name, decimal initialBalance)
+            {
+                Owner = name;
+                Balance = initialBalance;
+            }
+
             //Methods
             public void MakeDeposit(decimal amount, DateTime date, string note)
             {
@@ -116,6 +124,10 @@ namespace FirstBankOfSuncoast
 
         static void Main(string[] args)
         {
+            //Initialize a constructor to create the new BankAccount
+            var account = new BankAccount("Fernando", 500);
+            Console.WriteLine($"Account {account.Number} was created for {account.Owner} with {account.Balance} initial balance. ");
+
             //Makes new database to save into
             var database = new TransactionDatabase();
 

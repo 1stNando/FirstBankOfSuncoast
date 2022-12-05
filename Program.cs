@@ -127,6 +127,21 @@ namespace FirstBankOfSuncoast
 
         }
 
+        //Make a new class for a Transaction
+        public class Transaction
+        {
+            public decimal Amount { get; }
+            public DateTime Date { get; }
+            public string Notes { get; }
+
+            public Transaction(decimal amount, DateTime date, string note)
+            {
+                Amount = amount;
+                Date = date;
+                Notes = note;
+            }
+        }
+
 
         static void Main(string[] args)
         {
@@ -134,7 +149,7 @@ namespace FirstBankOfSuncoast
             var account = new BankAccount("Fernando", 500);
             Console.WriteLine($"Account {account.Number} was created for {account.Owner} with {account.Balance} initial balance. ");
 
-            //Makes new database to save into
+            //Makes new database to save into///////////////////
             var database = new TransactionDatabase();
 
             //We only need one instance at the beginning

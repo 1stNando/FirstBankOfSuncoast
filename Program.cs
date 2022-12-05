@@ -114,6 +114,9 @@ namespace FirstBankOfSuncoast
                 accountNumberSeed++;
             }
 
+            //Lets add a List<> of Transaction objects 
+            private List<Transaction> allTransactions = new List<Transaction>();
+
             //Methods
             public void MakeDeposit(decimal amount, DateTime date, string note)
             {

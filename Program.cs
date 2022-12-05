@@ -102,7 +102,7 @@ namespace FirstBankOfSuncoast
             //Properties
             public string Number { get; }
             public string Owner { get; set; }
-            //edit this property in order to calculate the Balance correctly by summing the valuse of ALL transactions
+            //edit this property in order to calculate the Balance correctly by summing the values of ALL transactions. This will display the CURRENT balance.
             public decimal Balance
             {
                 get

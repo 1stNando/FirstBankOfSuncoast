@@ -102,7 +102,20 @@ namespace FirstBankOfSuncoast
             //Properties
             public string Number { get; }
             public string Owner { get; set; }
-            public decimal Balance { get; }
+            //edit this property in order to calculate the Balance correctly by summing the valuse of ALL transactions
+            public decimal Balance
+            {
+                get
+                {
+                    decimal balance = 0;
+                    foreach (var item in allTransactions)
+                    {
+                        balance += item.Amount;
+                    }
+
+                    return balance;
+                }
+            }
 
             //Initialize the object
             public BankAccount(string name, decimal initialBalance)

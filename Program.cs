@@ -121,11 +121,13 @@ namespace FirstBankOfSuncoast
             //Initialize the object
             public BankAccount(string name, decimal initialBalance)
             {
-                Owner = name;
-                Balance = initialBalance;
                 //Adds a way for this constructor to assign the NEW account number.
                 this.Number = accountNumberSeed.ToString();
                 accountNumberSeed++;
+
+                // The constructor should get one change so that it adds an initial transaction, rather than updating the balance directly. Since you already wrote the MakeDeposit method, call it from your constructor. 
+                Owner = name;
+                MakeDeposit(initialBalance, DateTime.Now, "Initial balance");
             }
 
             //Lets add a List<> of Transaction objects 
@@ -145,6 +147,7 @@ namespace FirstBankOfSuncoast
 
             public void MakeWithdrawal(decimal amount, DateTime date, string note)
             {
+                //The throw statement throws an exception. Execution of the current block ends, and control transfers to the first matching catch block found in the call stack. You'll add a catch block to test this code a little later on.
                 if (amount <= 0)
                 {
                     throw new ArgumentOutOfRangeException(nameof(amount), "Amount of withdrawal must be (+) positive. ");

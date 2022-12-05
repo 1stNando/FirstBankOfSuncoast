@@ -102,7 +102,8 @@ namespace FirstBankOfSuncoast
             //Properties
             public string Number { get; }
             public string Owner { get; set; }
-            //edit this property in order to calculate the Balance correctly by summing the values of ALL transactions. This will display the CURRENT balance.
+
+            //edit Balance property in order to calculate the Balance correctly by summing the values of ALL transactions. This will display the sum as a CURRENT balance.
             public decimal Balance
             {
                 get
@@ -130,10 +131,16 @@ namespace FirstBankOfSuncoast
             //Lets add a List<> of Transaction objects 
             private List<Transaction> allTransactions = new List<Transaction>();
 
-            //Methods
+            //Methods below:
+            //Next, implement the MakeDeposit and MakeWithdrawal methods. These methods will enforce the final two rules: the initial balance must be positive, and any withdrawal must not create a negative balance
             public void MakeDeposit(decimal amount, DateTime date, string note)
             {
-
+                if (amount <= 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(amount), "Amount of deposit must be (+) positive. ");
+                }
+                var deposit = new Transaction(amount, date, note);
+                allTransactions.Add(deposit);
             }
 
             public void MakeWithdrawal(decimal amount, DateTime date, string note)

@@ -13,16 +13,56 @@ namespace FirstBankOfSuncoast
         public int deposit { get; set; }
 
     }
-    class TransactionDatabase
+    class TransactionDatabase///////////////////////////////////////////Database
     {
         private List<Transaction> Transactions { get; set; } = new List<Transaction>();
-    }
+
+        private string FileName = "Transactions.csv";
+
+        public void LoadTransactions()
+        {
+            if (File.Exists(FileName))
+            {
+                //Create Reader from Transactions.csv file
+                var fileReader = new StreamReader(FileName);
+                var csvReader = new CsvReader(fileReader, CultureInfo.InvariantCulture);
+                //This replaces the empty list with the information contained inside the CSV file
+                Transactions = csvReader.GetRecords<Transaction>().ToList();
+
+                fileReader.Close();
+            }
+        }
+
+        //Ability to write the Transaction list to the CSV file
+        public void SavedTransactions()
+        {
+            var fileWriter = new StreamWriter(FileName);
+            var csvWriter = new CsvWriter(fileWriter, CultureInfo.InvariantCulture);
+            csvWriter.WriteRecords(Transactions);
+            fileWriter.Close();
+        }
+
+        //Below we can write the behaviors we want this class to do.
+        //CREATE Add Transaction.
+        public void AddTransaction(Transaction newTransaction)
+        {
+            Transactions.Add(newTransaction);
+        }
+
+        //READ to get all Transaction made
+        public List<Transaction> GetAllTransactions()
+        {
+            return Transactions;
+        }
+
+
+    }//////////////////////////////////////////////////////End of TransactionDatabase
     class Program
     {
         static void DisplayGreeting()
         {
             Console.WriteLine("----------------------------------------");
-            Console.WriteLine("Welcome to Your Personal Financial Database");
+            Console.WriteLine("Welcome to your Personal Bank Account Manager");
             Console.WriteLine("----------------------------------------");
             Console.WriteLine();
             Console.WriteLine();
@@ -53,15 +93,65 @@ namespace FirstBankOfSuncoast
             }
         }
 
+        //Define the bank account type
+        public class BankAccount
+        {
+            //Properties
+            public string Number { get; }
+            public string Owner { get; set; }
+            public decimal Balance { get; }
+            //Methods
+            public void MakeDeposit(decimal amount, DateTime date, string note)
+            {
+
+            }
+
+            public void MakeWithdrawal(decimal amount, DateTime date, string note)
+            {
+
+            }
+
+        }
+
 
         static void Main(string[] args)
         {
+            //Makes new database to save into
+            var database = new TransactionDatabase();
+
+            //We only need one instance at the beginning
+            database.LoadTransactions();
+
+            //Display the greeting
+            DisplayGreeting();
+
+            //Set the control for "should we keep going"
+            var keepGoing = true;
+
+            //Create the main WHILE loop
+            while (keepGoing)
+            {
+                Console.WriteLine();
+                Console.Write("What would you like to do?");
+
+                //Lets create a SWITCH case to vary the user options
+                var choice = Console.ReadLine().ToUpper();
+
+                switch (choice)
+                {
+                    case "Q":
+                        keepGoing = false;
+                        break;
+
+                        /////
+                }
+            }
+
+            //One instance at the end of the program to SAVE Transactions
+            database.SavedTransactions();
 
 
-
-
-
-
-        }
+        }///End of Main.
     }
 }
+

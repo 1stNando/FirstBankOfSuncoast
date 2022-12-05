@@ -145,7 +145,17 @@ namespace FirstBankOfSuncoast
 
             public void MakeWithdrawal(decimal amount, DateTime date, string note)
             {
-
+                if (amount <= 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(amount), "Amount of withdrawal must be (+) positive. ");
+                }
+                if (Balance - amount < 0)
+                {
+                    throw new InvalidOperationException("Not sufficient funds for this withdrawal. ");
+                }
+                //Instance of a transaction. And recording of event to list of allTransactions.
+                var withdrawal = new Transaction(-amount, date, note);
+                allTransactions.Add(withdrawal);
             }
 
         }

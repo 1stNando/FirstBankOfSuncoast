@@ -93,9 +93,12 @@ namespace FirstBankOfSuncoast
             }
         }
 
-        //Define the bank account type
+        //Define the bank account type class
         public class BankAccount
         {
+            //Add a member declaration.This account number will be assigned when the object is constructed. So we have unique account #.
+            private static int accountNumberSeed = 1234567890;
+
             //Properties
             public string Number { get; }
             public string Owner { get; set; }
@@ -106,6 +109,9 @@ namespace FirstBankOfSuncoast
             {
                 Owner = name;
                 Balance = initialBalance;
+                //Adds a way for this constructor to assign the NEW account number.
+                this.Number = accountNumberSeed.ToString();
+                accountNumberSeed++;
             }
 
             //Methods

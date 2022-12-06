@@ -182,8 +182,14 @@ namespace FirstBankOfSuncoast
         static void Main(string[] args)
         {
             //Initialize a constructor to create the new BankAccount
-            var account = new BankAccount("Fernando", 500);
+            var account = new BankAccount("Fernando", 5000);
             Console.WriteLine($"Account {account.Number} was created for {account.Owner} with {account.Balance} initial balance. ");
+
+            //TEST: deposit and withdrawal
+            account.MakeWithdrawal(500, DateTime.Now, "Rent payment");
+            Console.WriteLine(account.Balance);
+            account.MakeDeposit(100, DateTime.Now, "Cash from tips");
+            Console.WriteLine(account.Balance);
 
             //Makes new database to save into///////////////////
             var database = new TransactionDatabase();

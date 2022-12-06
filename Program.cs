@@ -185,11 +185,22 @@ namespace FirstBankOfSuncoast
             var account = new BankAccount("Fernando", 5000);
             Console.WriteLine($"Account {account.Number} was created for {account.Owner} with {account.Balance} initial balance. ");
 
-            //TEST: deposit and withdrawal
+            //TEST: deposit and withdrawal///////////////////////////////////////////////////////////////////////////
             account.MakeWithdrawal(500, DateTime.Now, "Rent payment");
             Console.WriteLine(account.Balance);
             account.MakeDeposit(100, DateTime.Now, "Cash from tips");
             Console.WriteLine(account.Balance);
+
+            //TEST: condition of negative balance! Using try/catch technique for testing
+            try
+            {
+                account.MakeWithdrawal(4900, DateTime.Now, "Attempt to overdraw");
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine("Exception caught trying to overdraw");
+                Console.WriteLine(e.ToString());
+            }
 
             //TEST: catching error conditions by trying to create an account with a negative balance/////////////////
             BankAccount invalidAccount;

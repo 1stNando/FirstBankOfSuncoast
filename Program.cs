@@ -191,6 +191,19 @@ namespace FirstBankOfSuncoast
             account.MakeDeposit(100, DateTime.Now, "Cash from tips");
             Console.WriteLine(account.Balance);
 
+            //TEST: catching error conditions by trying to create an account with a negative balance/////////////////
+            BankAccount invalidAccount;
+            try
+            {
+                invalidAccount = new BankAccount("invalid", -55);
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                Console.WriteLine("Exception caught creating account with a negative balance");
+                Console.WriteLine(e.ToString());
+                return;
+            }
+
             //Makes new database to save into///////////////////
             var database = new TransactionDatabase();
 

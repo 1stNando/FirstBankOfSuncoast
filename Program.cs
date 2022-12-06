@@ -161,6 +161,21 @@ namespace FirstBankOfSuncoast
                 allTransactions.Add(withdrawal);
             }
 
+            //Write a method that creates a String for the transaction history log of all 
+            public string GetAccountHistory()
+            {
+                var report = new System.Text.StringBuilder();
+
+                decimal balance = 0;
+                report.AppendLine("Date\t\tAmount\tBalance\tNote");
+                foreach (var item in allTransactions)
+                {
+                    balance += item.Amount;
+                    report.AppendLine($"{item.Date.ToShortDateString()}\t{item.Amount}\t{balance}\t{item.Notes}");
+                }
+                return report.ToString();
+            }
+
         }
 
         //Make a new class for a Transaction

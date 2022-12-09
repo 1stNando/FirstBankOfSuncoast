@@ -93,6 +93,22 @@ namespace FirstBankOfSuncoast
             }
         }
 
+        //Make a new class for a Transaction
+        public class Transaction
+        {
+            public decimal Amount { get; }
+            public DateTime Date { get; }
+            public string Notes { get; }
+
+            public Transaction(decimal amount, DateTime date, string note)
+            {
+                Amount = amount;
+                Date = date;
+                Notes = note;
+            }
+        }
+
+
         //Define the bank account type class
         public class BankAccount
         {
@@ -174,24 +190,13 @@ namespace FirstBankOfSuncoast
                     report.AppendLine($"{item.Date.ToShortDateString()}\t{item.Amount}\t{balance}\t{item.Notes}");
                 }
                 return report.ToString();
+
+                //The history uses the StringBuilder class to format a string that contains one line for each transaction. 
+                //One new character is \t. That inserts a tab to format the output.
             }
 
         }
 
-        //Make a new class for a Transaction
-        public class Transaction
-        {
-            public decimal Amount { get; }
-            public DateTime Date { get; }
-            public string Notes { get; }
-
-            public Transaction(decimal amount, DateTime date, string note)
-            {
-                Amount = amount;
-                Date = date;
-                Notes = note;
-            }
-        }
 
 
         static void Main(string[] args)
@@ -246,7 +251,7 @@ namespace FirstBankOfSuncoast
             while (keepGoing)
             {
                 Console.WriteLine();
-                Console.Write("What would you like to do?");
+                Console.Write("What would you like to do?\n(Q)uit\n(M)akeDeposit");
 
                 //Lets create a SWITCH case to vary the user options
                 var choice = Console.ReadLine().ToUpper();
@@ -256,8 +261,13 @@ namespace FirstBankOfSuncoast
                     case "Q":
                         keepGoing = false;
                         break;
+                }
 
-                        /////
+                switch (choice)
+                {
+                    case "M":
+                        break;
+
                 }
             }
 

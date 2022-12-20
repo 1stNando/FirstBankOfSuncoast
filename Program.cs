@@ -129,12 +129,6 @@ namespace FirstBankOfSuncoast
                         keepGoing = false;
                         break;
                 }
-                switch (choice)
-                {
-                    case "W":
-                        MakeWithdrawal
-                        break;
-                }
 
                 switch (choice)
                 {
@@ -221,10 +215,33 @@ namespace FirstBankOfSuncoast
 
                 switch (choice)
                 {
-                    case "S":
-                        Console.WriteLine(account.GetAccountHistory());
+                    case "B":
+                        Console.WriteLine($"Checking account has {checkingAccountBalance} and Savings account has {savingsAccountBalance} ");
                         break;
                 }
+
+                switch (choice)
+                {
+                    case "V":
+                        Console.WriteLine("View transaction history in (C)hecking or (S)avings account ");
+                        var answer = Console.ReadLine().ToUpper();
+                        if (answer == "C")
+                        {
+                            foreach (var transaction in checkingTransactions)
+                            {
+                                Console.WriteLine(transaction.TransactionHistory());
+                            }
+                        }
+                        if (answer == "S")
+                        {
+                            foreach (var transaction in savingsTransactions)
+                            {
+                                Console.WriteLine(transaction.TransactionHistory());
+                            }
+                        }
+                        break;
+                }
+
             }
 
             //One instance at the end of the program to SAVE Transactions

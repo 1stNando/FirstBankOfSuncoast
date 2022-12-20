@@ -56,38 +56,51 @@ namespace FirstBankOfSuncoast
 
         static void Main(string[] args)
         {
-            //Initialize a constructor to create the new BankAccount
-            // var account = new BankAccount("Fernando", 5000);
-            // Console.WriteLine($"Account {account.Number} was created for {account.Owner} with {account.Balance} initial balance. ");
+            var savingsAccountBalance = 0;
+            var checkingAccountBalance = 0;
+            var checkingTransactions = new List<Transaction>();
 
-            // //TEST: deposit and withdrawal///////////////////////////////////////////////////////////////////////////
-            // account.MakeWithdrawal(500, DateTime.Now, "Rent payment");
-            // Console.WriteLine(account.Balance);
-            // account.MakeDeposit(100, DateTime.Now, "Cash from tips");
+            if (File.Exists("checking.csv"))
+            {
+                var checkingFileReader = new StreamReader("checking.csv");
+                var checkingCsvReader = new CsvReader(checkingFileReader, CultureInfo.InvariantCulture);
 
-            // //TEST: condition of negative balance! Using try/catch technique for testing
-            // try
-            // {
-            //     account.MakeWithdrawal(4900, DateTime.Now, "Attempt to overdraw");
-            // }
-            // catch (InvalidOperationException e)
-            // {
-            //     Console.WriteLine("Exception caught trying to overdraw");
-            //     Console.WriteLine(e.ToString());
-            // }
+                checkingTransactions = checkingCsvReader.GetRecords<Transaction>().ToList();
+            }
 
-            // //TEST: catching error conditions by trying to create an account with a negative balance/////////////////
-            // BankAccount invalidAccount;
-            // try
-            // {
-            //     invalidAccount = new BankAccount("invalid", -55);
-            // }
-            // catch (ArgumentOutOfRangeException e)
-            // {
-            //     Console.WriteLine("Exception caught creating account with a negative balance");
-            //     Console.WriteLine(e.ToString());
-            //     return;
-            // }
+            foreach (var check in checkingTransactions)
+            {
+                if (check.TransactionType == "Deposit")
+                {
+                    checkingAccountBalance += check.ChangeOfBalance;
+                }
+                else
+                {
+                    checkingAccountBalance -= check.ChangeOfBalance;
+                }
+
+            }
+
+            var savingsTransactions = new List<Transaction>();
+
+            if (File.Exists("savings.csv"))
+            {
+                var savingsFileReader = new StreamReader("savings.csv");
+                var savingsCsvReader = new CsvReader(savingsFileReader, CultureInfo.InvariantCulture);
+
+                savingsTransactions = savingsCsvReader.GetRecords<Transaction>().ToList();
+            }
+            foreach (var save in savingsTransactions)
+            {
+                if (save.TransactionType == "Deposit")
+                {
+                    savingsAccountBalance += save.ChangeOfBalance;
+                }
+                else
+                {
+                    savingsAccountBalance -= save.ChangeOfBalance;
+                }
+            }
 
             //Makes new database we can manipulate and have it do actions. This variable references back to our database. Link in the chain.///////////////////
             var database = new TransactionDatabase();

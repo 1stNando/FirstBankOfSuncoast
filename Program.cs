@@ -172,9 +172,31 @@ namespace FirstBankOfSuncoast
                 switch (choice)
                 {
                     case "W":
+                        Console.WriteLine("Which account would you like to withdraw from, (C)hecking or (S)avings ");
+                        var answer = Console.ReadLine().ToUpper();
+                        if (answer == "C")
+                        {
+                            Console.WriteLine("State the amount in $dollars to withdraw ");
+                            var withdrawAmount = int.Parse(Console.ReadLine());
+                            var newTransaction = new Transaction
+                            {
+                                TransactionType = "Withdraw",
+                                ChangeOfBalance = withdrawAmount
+                            };
+                            if (withdrawAmount < checkingAccountBalance)
+                            {
+                                var newCheckingAccountBalance = checkingAccountBalance - newTransaction.ChangeOfBalance;
+                                checkingAccountBalance = newCheckingAccountBalance;
+                                Console.WriteLine(checkingAccountBalance);
+                                checkingTransactions.Add(newTransaction);
+                            }
+                            else
+                            {
+                                Console.WriteLine("You do not have sufficient funds for this! ");
+                            }
+                        }
 
                         break;
-
                 }
 
                 switch (choice)

@@ -244,16 +244,13 @@ namespace FirstBankOfSuncoast
 
             }
 
-            //One instance at the end of the program to SAVE Transactions
-            database.SaveTransactions();
-
+            //STREAMWRITER CHECKING account
+            var checkingFileWriter = new StreamWriter("checking.csv");
+            var checkingCsvWriter = new CsvWriter(checkingFileWriter, CultureInfo.InvariantCulture);
+            checkingCsvWriter.WriteRecords(checkingTransactions);
+            checkingFileWriter.Close();
 
         }
-
-
-
-
-
     }
 }
 

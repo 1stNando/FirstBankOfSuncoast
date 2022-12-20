@@ -250,6 +250,12 @@ namespace FirstBankOfSuncoast
             checkingCsvWriter.WriteRecords(checkingTransactions);
             checkingFileWriter.Close();
 
+            //SAVINGS
+            var savingsFileWriter = new StreamWriter("savings.csv");
+            var savingsCsvWriter = new CsvWriter(savingsFileWriter, CultureInfo.InvariantCulture);
+            savingsCsvWriter.WriteRecords(savingsTransactions);
+            savingsFileWriter.Close();
+
         }
     }
 }

@@ -131,3 +131,9 @@ private static int accountNumberSeed = 1234567890;
             //     Console.WriteLine(e.ToString());
             //     return;
             // }
+
+//////////////////
+//Test
+// Console.WriteLine(account.GetAccountHistory());
+// account.MakeDeposit(100, DateTime.Now, "Cash from tips");
+// var newTransaction = new Transaction(100, DateTime.Now, "More Cash");

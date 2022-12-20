@@ -118,12 +118,7 @@ namespace FirstBankOfSuncoast
             while (keepGoing)
             {
                 Console.WriteLine();
-                Console.Write("What would you like to do?\n(Q)uit\n(M)akeDeposit\n(S)howTransactions\n(D)eposit\n(W)ithdrawal");
-
-                //Test
-                // Console.WriteLine(account.GetAccountHistory());
-                // account.MakeDeposit(100, DateTime.Now, "Cash from tips");
-                // var newTransaction = new Transaction(100, DateTime.Now, "More Cash");
+                Console.Write("What would you like to do?\n(D)eposit\n(W)ithdraw\n(V)iewTransactionHistory\n(B)alance\n(Q)uit");
 
                 //Lets create a SWITCH case to vary the user options
                 var choice = Console.ReadLine().ToUpper();
@@ -144,7 +139,22 @@ namespace FirstBankOfSuncoast
                 switch (choice)
                 {
                     case "D":
-                        MakeDeposit(Transaction newTransaction);//????????????????????????????????????????????????????
+                        Console.WriteLine("Are you making a deposit into, (S)AVINGS or (C)HECKING");
+                        var answer = Console.ReadLine().ToUpper();
+                        if (answer == "C")
+                        {
+                            Console.WriteLine("State the amount of $dollars to deposit");
+                            var depositAmount = int.Parse(Console.ReadLine());
+                            var newTransaction = new Transaction
+                            {
+                                TransactionType = "Deposit",
+                                ChangeOfBalance = depositAmount
+                            };
+                            var newCheckingAccountBalance = checkingAccountBalance + newTransaction.ChangeOfBalance;
+                            checkingAccountBalance = newCheckingAccountBalance;
+                            Console.WriteLine(checkingAccountBalance);
+                            checkingTransactions.Add(newTransaction);
+                        }
                         break;
                 }
 

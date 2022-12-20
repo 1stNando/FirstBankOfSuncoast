@@ -195,7 +195,27 @@ namespace FirstBankOfSuncoast
                                 Console.WriteLine("You do not have sufficient funds for this! ");
                             }
                         }
+                        if (answer == "S")
+                        {
+                            Console.WriteLine("State the amount in $dollars to withdraw ");
+                            var withdrawAmount = int.Parse(Console.ReadLine());
+                            var newTransaction = new Transaction
+                            {
+                                TransactionType = "Withdraw",
+                                ChangeOfBalance = withdrawAmount
+                            };
 
+                            if (withdrawAmount < savingsAccountBalance)
+                            {
+                                var newSavingsAccountBalance = savingsAccountBalance - newTransaction.ChangeOfBalance;
+                                Console.WriteLine(savingsAccountBalance);
+                                savingsTransactions.Add(newTransaction);
+                            }
+                            else
+                            {
+                                Console.WriteLine("You do not have sufficient funds for this! ");
+                            }
+                        }
                         break;
                 }
 

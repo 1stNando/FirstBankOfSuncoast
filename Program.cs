@@ -156,12 +156,23 @@ namespace FirstBankOfSuncoast
                             checkingTransactions.Add(newTransaction);
                         }
                         if (answer == "S")
-                            break;
+                            Console.WriteLine("State the amount of $dollars to deposit");
+                        var depositAmount = int.Parse(Console.ReadLine());
+                        var newTransaction = new Transaction
+                        {
+                            TransactionType = "Deposit",
+                            ChangeOfBalance = depositAmount
+                        };
+                        var newSavingsAccountBalance = savingsAccountBalance + newTransaction.ChangeOfBalance;
+                        Console.WriteLine(savingsAccountBalance);
+                        savingsTransactions.Add(newTransaction);
+                        break;
                 }
 
                 switch (choice)
                 {
-                    case "M":
+                    case "W":
+
                         break;
 
                 }

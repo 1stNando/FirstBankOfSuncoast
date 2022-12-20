@@ -103,10 +103,10 @@ namespace FirstBankOfSuncoast
             }
 
             //Makes new database we can manipulate and have it do actions. This variable references back to our database. Link in the chain.///////////////////
-            var database = new TransactionDatabase();
+            //var database = new TransactionDatabase();
 
             //We only need one instance at the beginning
-            database.LoadTransactions();
+            //database.LoadTransactions();
 
             //Display the greeting
             DisplayGreeting();
@@ -119,7 +119,7 @@ namespace FirstBankOfSuncoast
             {
                 Console.WriteLine();
                 Console.Write("What would you like to do?\n(D)eposit\n(W)ithdraw\n(V)iewTransactionHistory\n(B)alance\n(Q)uit");
-
+                Console.WriteLine();
                 //Lets create a SWITCH case to vary the user options
                 var choice = Console.ReadLine().ToUpper();
 
@@ -135,30 +135,37 @@ namespace FirstBankOfSuncoast
                     case "D":
                         Console.WriteLine("Are you making a deposit into, (S)AVINGS or (C)HECKING");
                         var answer = Console.ReadLine().ToUpper();
+
                         if (answer == "C")
                         {
-                            Console.WriteLine("State the amount of $dollars to deposit");
-                            var depositAmount = int.Parse(Console.ReadLine());
-                            var newTransaction = new Transaction
+                            Console.WriteLine("State the amount of $dollars to deposit into checking");
+                            var cDepositAmount = int.Parse(Console.ReadLine());
+
+                            var newCTransaction = new Transaction
                             {
                                 TransactionType = "Deposit",
-                                ChangeOfBalance = depositAmount
+                                ChangeOfBalance = cDepositAmount
                             };
-                            var newCheckingAccountBalance = checkingAccountBalance + newTransaction.ChangeOfBalance;
+
+                            var newCheckingAccountBalance = checkingAccountBalance + newCTransaction.ChangeOfBalance;
                             checkingAccountBalance = newCheckingAccountBalance;
-                            Console.WriteLine(checkingAccountBalance);
-                            checkingTransactions.Add(newTransaction);
+                            Console.WriteLine($"Your checking account now has a balance of ${checkingAccountBalance}");
+                            checkingTransactions.Add(newCTransaction);
+                            break;
                         }
+
                         if (answer == "S")
-                            Console.WriteLine("State the amount of $dollars to deposit");
+                            Console.WriteLine("State the amount of $dollars to deposit into savings");
                         var depositAmount = int.Parse(Console.ReadLine());
+
                         var newTransaction = new Transaction
                         {
                             TransactionType = "Deposit",
                             ChangeOfBalance = depositAmount
                         };
+
                         var newSavingsAccountBalance = savingsAccountBalance + newTransaction.ChangeOfBalance;
-                        Console.WriteLine(savingsAccountBalance);
+                        Console.WriteLine($"Your savings account now has a balance of ${savingsAccountBalance}");
                         savingsTransactions.Add(newTransaction);
                         break;
                 }

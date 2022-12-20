@@ -7,56 +7,17 @@ using CsvHelper;
 using CsvHelper.Configuration;
 namespace FirstBankOfSuncoast
 {
-
-    class Transaction
+    public class Transaction
     {
-        public int deposit { get; set; }
+        public string TransactionType { get; set; }
+        public int ChangeOfBalance { get; set; }
+        public string TransactionHistory()
+        {
+            var getTransactionHistory = $"{TransactionType} for {ChangeOfBalance}";
+            return getTransactionHistory;
+        }
 
     }
-    class TransactionDatabase///////////////////////////////////////////Database
-    {
-        private List<Transaction> Transactions { get; set; } = new List<Transaction>();
-
-        private string FileName = "Transactions.csv";
-
-        public void LoadTransactions()
-        {
-            if (File.Exists(FileName))
-            {
-                //Create Reader from Transactions.csv file
-                var fileReader = new StreamReader(FileName);
-                var csvReader = new CsvReader(fileReader, CultureInfo.InvariantCulture);
-                //This replaces the empty list with the information contained inside the CSV file
-                Transactions = csvReader.GetRecords<Transaction>().ToList();
-
-                fileReader.Close();
-            }
-        }
-
-        //Ability to write the Transaction list to the CSV file
-        public void SavedTransactions()
-        {
-            var fileWriter = new StreamWriter(FileName);
-            var csvWriter = new CsvWriter(fileWriter, CultureInfo.InvariantCulture);
-            csvWriter.WriteRecords(Transactions);
-            fileWriter.Close();
-        }
-
-        //Below we can write the behaviors we want this class to do.
-        //CREATE Add Transaction.
-        public void AddTransaction(Transaction newTransaction)
-        {
-            Transactions.Add(newTransaction);
-        }
-
-        //READ to get all Transaction made
-        public List<Transaction> GetAllTransactions()
-        {
-            return Transactions;
-        }
-
-
-    }//////////////////////////////////////////////////////End of TransactionDatabase
     class Program
     {
         static void DisplayGreeting()
@@ -93,149 +54,42 @@ namespace FirstBankOfSuncoast
             }
         }
 
-        //Make a new class for a Transaction
-        public class Transaction
-        {
-            public decimal Amount { get; }
-            public DateTime Date { get; }
-            public string Notes { get; }
-
-            public Transaction(decimal amount, DateTime date, string note)
-            {
-                Amount = amount;
-                Date = date;
-                Notes = note;
-            }
-        }
-
-
-        //Define the bank account type class
-        public class BankAccount
-        {
-            //Add a member declaration.This account number will be assigned when the object is constructed. So we have unique account #.
-            private static int accountNumberSeed = 1234567890;
-
-            //Properties
-            public string Number { get; }
-            public string Owner { get; set; }
-
-            //edit Balance property in order to calculate the Balance correctly by summing the values of ALL transactions. This will display the sum as a CURRENT balance.
-            public decimal Balance
-            {
-                get
-                {
-                    decimal balance = 0;
-                    foreach (var item in allTransactions)
-                    {
-                        balance += item.Amount;
-                    }
-
-                    return balance;
-                }
-            }
-
-            //Initialize the object
-            public BankAccount(string name, decimal initialBalance)
-            {
-                //Adds a way for this constructor to assign the NEW account number.
-                this.Number = accountNumberSeed.ToString();
-                accountNumberSeed++;
-
-                // The constructor should get one change so that it adds an initial transaction, rather than updating the balance directly. Since you already wrote the MakeDeposit method, call it from your constructor. 
-                Owner = name;
-                MakeDeposit(initialBalance, DateTime.Now, "Initial balance");
-            }
-
-            //Lets add a List<> of Transaction objects 
-            private List<Transaction> allTransactions = new List<Transaction>();
-
-            //Methods below:
-            //Next, implement the MakeDeposit and MakeWithdrawal methods. These methods will enforce the final two rules: the initial balance must be positive, and any withdrawal must not create a negative balance
-            public void MakeDeposit(decimal amount, DateTime date, string note)
-            {
-                if (amount <= 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(amount), "Amount of deposit must be (+) positive. ");
-                }
-                var deposit = new Transaction(amount, date, note);
-                allTransactions.Add(deposit);
-            }
-
-            public void MakeWithdrawal(decimal amount, DateTime date, string note)
-            {
-                //The throw statement throws an exception. Execution of the current block ends, and control transfers to the first matching catch block found in the call stack. You'll add a catch block to test this code a little later on.
-                if (amount <= 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(amount), "Amount of withdrawal must be (+) positive. ");
-                }
-                if (Balance - amount < 0)
-                {
-                    throw new InvalidOperationException("Not sufficient funds for this withdrawal. ");
-                }
-                //Instance of a transaction. And recording of event to list of allTransactions.
-                var withdrawal = new Transaction(-amount, date, note);
-                allTransactions.Add(withdrawal);
-            }
-
-            //Write a method that creates a String for the transaction history log of all 
-            public string GetAccountHistory()
-            {
-                var report = new System.Text.StringBuilder();
-
-                decimal balance = 0;
-                report.AppendLine("Date\t\tAmount\tBalance\tNote");
-                foreach (var item in allTransactions)
-                {
-                    balance += item.Amount;
-                    report.AppendLine($"{item.Date.ToShortDateString()}\t{item.Amount}\t{balance}\t{item.Notes}");
-                }
-                return report.ToString();
-
-                //The history uses the StringBuilder class to format a string that contains one line for each transaction. 
-                //One new character is \t. That inserts a tab to format the output.
-            }
-
-        }
-
-
-
         static void Main(string[] args)
         {
             //Initialize a constructor to create the new BankAccount
-            var account = new BankAccount("Fernando", 5000);
-            Console.WriteLine($"Account {account.Number} was created for {account.Owner} with {account.Balance} initial balance. ");
+            // var account = new BankAccount("Fernando", 5000);
+            // Console.WriteLine($"Account {account.Number} was created for {account.Owner} with {account.Balance} initial balance. ");
 
-            //TEST: deposit and withdrawal///////////////////////////////////////////////////////////////////////////
-            account.MakeWithdrawal(500, DateTime.Now, "Rent payment");
-            Console.WriteLine(account.Balance);
-            account.MakeDeposit(100, DateTime.Now, "Cash from tips");
-            Console.WriteLine(account.Balance);
+            // //TEST: deposit and withdrawal///////////////////////////////////////////////////////////////////////////
+            // account.MakeWithdrawal(500, DateTime.Now, "Rent payment");
+            // Console.WriteLine(account.Balance);
+            // account.MakeDeposit(100, DateTime.Now, "Cash from tips");
 
-            //TEST: condition of negative balance! Using try/catch technique for testing
-            try
-            {
-                account.MakeWithdrawal(4900, DateTime.Now, "Attempt to overdraw");
-            }
-            catch (InvalidOperationException e)
-            {
-                Console.WriteLine("Exception caught trying to overdraw");
-                Console.WriteLine(e.ToString());
-            }
+            // //TEST: condition of negative balance! Using try/catch technique for testing
+            // try
+            // {
+            //     account.MakeWithdrawal(4900, DateTime.Now, "Attempt to overdraw");
+            // }
+            // catch (InvalidOperationException e)
+            // {
+            //     Console.WriteLine("Exception caught trying to overdraw");
+            //     Console.WriteLine(e.ToString());
+            // }
 
-            //TEST: catching error conditions by trying to create an account with a negative balance/////////////////
-            BankAccount invalidAccount;
-            try
-            {
-                invalidAccount = new BankAccount("invalid", -55);
-            }
-            catch (ArgumentOutOfRangeException e)
-            {
-                Console.WriteLine("Exception caught creating account with a negative balance");
-                Console.WriteLine(e.ToString());
-                return;
-            }
+            // //TEST: catching error conditions by trying to create an account with a negative balance/////////////////
+            // BankAccount invalidAccount;
+            // try
+            // {
+            //     invalidAccount = new BankAccount("invalid", -55);
+            // }
+            // catch (ArgumentOutOfRangeException e)
+            // {
+            //     Console.WriteLine("Exception caught creating account with a negative balance");
+            //     Console.WriteLine(e.ToString());
+            //     return;
+            // }
 
-            //Makes new database to save into///////////////////
+            //Makes new database we can manipulate and have it do actions. This variable references back to our database. Link in the chain.///////////////////
             var database = new TransactionDatabase();
 
             //We only need one instance at the beginning
@@ -251,7 +105,12 @@ namespace FirstBankOfSuncoast
             while (keepGoing)
             {
                 Console.WriteLine();
-                Console.Write("What would you like to do?\n(Q)uit\n(M)akeDeposit");
+                Console.Write("What would you like to do?\n(Q)uit\n(M)akeDeposit\n(S)howTransactions\n(D)eposit\n(W)ithdrawal");
+
+                //Test
+                // Console.WriteLine(account.GetAccountHistory());
+                // account.MakeDeposit(100, DateTime.Now, "Cash from tips");
+                // var newTransaction = new Transaction(100, DateTime.Now, "More Cash");
 
                 //Lets create a SWITCH case to vary the user options
                 var choice = Console.ReadLine().ToUpper();
@@ -262,6 +121,21 @@ namespace FirstBankOfSuncoast
                         keepGoing = false;
                         break;
                 }
+                switch (choice)
+                {
+                    case "W":
+                        MakeWithdrawal
+                        break;
+                }
+
+                switch (choice)
+                {
+                    case "D":
+                        MakeDeposit(Transaction newTransaction);//????????????????????????????????????????????????????
+                        break;
+                }
+
+
 
                 switch (choice)
                 {
@@ -269,13 +143,25 @@ namespace FirstBankOfSuncoast
                         break;
 
                 }
+
+                switch (choice)
+                {
+                    case "S":
+                        Console.WriteLine(account.GetAccountHistory());
+                        break;
+                }
             }
 
             //One instance at the end of the program to SAVE Transactions
-            database.SavedTransactions();
+            database.SaveTransactions();
 
 
-        }///End of Main.
+        }
+
+
+
+
+
     }
 }
 

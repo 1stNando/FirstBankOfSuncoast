@@ -155,10 +155,9 @@ namespace FirstBankOfSuncoast
                             Console.WriteLine(checkingAccountBalance);
                             checkingTransactions.Add(newTransaction);
                         }
-                        break;
+                        if (answer == "S")
+                            break;
                 }
-
-
 
                 switch (choice)
                 {
